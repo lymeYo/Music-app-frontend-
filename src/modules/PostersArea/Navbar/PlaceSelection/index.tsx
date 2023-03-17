@@ -2,8 +2,16 @@
 
 import React, { useRef, useState } from 'react'
 
-import SelectionInput from '@/modules/PostersArea/Navbar/CitySelection/SelectionInput'
-import { CITY_API_KEY } from '@/modules/PostersArea/Navbar/CitySelection/constants'
+import SelectionInput from '@/modules/PostersArea/Navbar/PlaceSelection/SelectionInput'
+import { CITY_API_KEY } from '@/utils/constants'
+
+const test = async () => {
+  const res = await fetch('http://localhost:3000/api/cities', {
+    method: 'POST',
+    body: 'Москва'
+  })
+  console.log(res.body)
+}
 
 const CitySelection: any = () => {
   const inputRef = useRef<any>(null)
@@ -43,7 +51,7 @@ const CitySelection: any = () => {
       setCities(citiesRef.current)
     }, 1000)
   }
-
+  test()
   return <SelectionInput cities={cities} handleChange={handleChange} inputRef={inputRef} />
 }
 

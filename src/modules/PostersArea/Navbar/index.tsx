@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 
 import PriceSelection from '@/modules/PostersArea/Navbar/PriceSelection'
-import CitySelection from '@/modules/PostersArea/Navbar/CitySelection'
+import CitySelection from '@/modules/PostersArea/Navbar/PlaceSelection'
 import { CheckIcon, CloseIcon } from '@/ui/Icons'
 
 const ItemLine = ({ item }) => {
