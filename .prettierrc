@@ -7,8 +7,8 @@
   "useTabs": false,
   "bracketSpacing": true,
   "trailingComma": "none",
+  "arrowParens": "avoid",
   "plugins": [
     "prettier-plugin-tailwindcss"
-  ],
-
+  ]
 }

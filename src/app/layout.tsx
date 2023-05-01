@@ -1,9 +1,35 @@
 import React from 'react'
 
 import Header from '@/modules/Header'
+import Providers from './providers'
 import './global.css'
+import { myGetCookies } from '@/utils/constants'
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+import { cookies } from 'next/headers'
+
+import { useDispatch } from 'react-redux'
+
+import { renderProfile, TprofileData } from '@/redux/slices/user'
+import { isResponceError } from '@/pages/api/auth/login'
+
+//{ children }: { children: React.ReactNode }
+export default async function RootLayout(props) {
+  const cookieStore = cookies()
+  const token = cookieStore.get('token')?.value
+  let profile: TprofileData | null = null
+  if (token) {
+    const userDataRes = await fetch('http://localhost:3000/api/user/profile', {
+      method: 'POST',
+      body: token
+    })
+    const profileInfo: TprofileData = await userDataRes.json()
+    profile = profileInfo
+    if (isResponceError(userDataRes, profileInfo)) {
+      cookieStore.delete('token')
+      profile = null
+    }
+  }
+
   return (
     <html lang='en' className='light'>
       {/*
@@ -13,14 +39,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
       <head />
       <body className='dark:bg-dBgMain'>
-        <div className='flex h-full flex-col'>
-          <header>
-            <Header />
-          </header>
+        <Providers>
+          <div className='flex h-full flex-col'>
+            <header>
+              <Header profileData={profile} />
+            </header>
 
-          <main className='flex-auto'>{children}</main>
-          <footer>footer</footer>
-        </div>
+            <main className='flex-auto'>{props.children}</main>
+            <footer>footer</footer>
+          </div>
+        </Providers>
       </body>
     </html>
   )

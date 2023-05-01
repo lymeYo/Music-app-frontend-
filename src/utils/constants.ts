@@ -1,3 +1,25 @@
+import { parseCookies, setCookie as setCookieLib } from 'nookies'
+
+export const CITY_API_KEY = '54139d21b48bbb2c6bbc17d5c9432cd3c4b640d1'
+
+export type TAction = {
+  type: string
+  [key: string]: any
+}
+
+export const createAction = (type: string) => ({ type })
+
+export const mySetCookie = (key: string, value: string, time: number = 10 * 24 * 60 * 60) => {
+  setCookieLib(null, key, value, {
+    maxAge: time
+  })
+}
+
+export const myGetCookies = () => {
+  const cookies = parseCookies()
+  return cookies
+}
+
 export const catalogData = [
   {
     name: 'Гитара',
@@ -927,5 +949,3 @@ export const catalogData = [
     ]
   }
 ]
-
-export const CITY_API_KEY = '54139d21b48bbb2c6bbc17d5c9432cd3c4b640d1'

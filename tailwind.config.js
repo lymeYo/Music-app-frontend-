@@ -13,6 +13,7 @@ module.exports = {
     extend: {
       colors: {
         lMain: '#003F62',
+        lMainLight: '#004972',
         lSecondary: '#EDA415',
         lSecondaryDark: '#d09014',
         dBgMain: '#475569',

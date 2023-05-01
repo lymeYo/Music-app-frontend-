@@ -1,24 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import './style.css'
 import Name from '@/modules/CreateItem/SelectParameters/Name'
 import Condition from '@/modules/CreateItem/SelectParameters/Condition'
-import ImagesArea from '@/modules/CreateItem/SelectParameters/ImagesArea'
-import { TItemState } from '@/modules/CreateItem/constants'
 import Address from '@/modules/CreateItem/SelectParameters/Address'
+import Description from './Description'
+import ImagesArea from './ImagesArea'
+import { PosterStateContext } from '..'
+import Price from './Price'
 
-const SelectParameters = ({ state }: { state: TItemState }) => {
-  const setName = (name: string) => {
-    state.name = name
-  }
-  const setState = (isNew: boolean) => {
-    state.state = isNew ? 'new' : 'used'
-  }
-
+type SelectParametersProps = {
+  handleButtonDisabled: (value: string) => void
+}
+const SelectParameters = ({ handleButtonDisabled }: SelectParametersProps) => {
   return (
     <div>
-      <Name setName={setName} />
-      <Condition setState={setState} />
+      <Name handleButtonDisabled={handleButtonDisabled} />
+      <Price />
+      <Description />
+      <Condition />
       <ImagesArea />
       <Address />
     </div>

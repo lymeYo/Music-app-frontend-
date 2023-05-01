@@ -4,7 +4,7 @@ export const useOpenListener = (parentClass: string): any => {
   const [isOpen, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
-    const handler = (event) => {
+    const handler = event => {
       const elem = event.target
 
       if (!elem.closest('.' + parentClass)) {

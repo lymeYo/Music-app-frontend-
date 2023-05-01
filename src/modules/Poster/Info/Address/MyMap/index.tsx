@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
 
+import { useSelector } from 'react-redux'
+
 import SellerLocationMarker from '@/modules/Poster/Info/Address/MyMap/SellerLocationMarker'
-import MyLocationMarker from '@/modules/Poster/Info/Address/MyMap/MyLocationMarker'
+import MyLocationMarker from '@/ui/leaflet/MyLocationMarker'
 import { ShotArrowIcon } from '@/ui/Icons'
+import LocationMarker from '@/ui/leaflet/LocationMarker'
+import { selectGeneralPoster } from '@/redux/slices/poster'
 
 const MyMap = () => {
   const [isMapOpen, openMap] = useState(false)
+  const { location } = useSelector(selectGeneralPoster)
+  const [_, lat, lon] = location.split(';')
   const handleMapOpen = () => {
-    openMap((prev) => !prev)
+    openMap(prev => !prev)
   }
 
   return (
@@ -37,7 +43,7 @@ const MyMap = () => {
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
           <MyLocationMarker />
-          <SellerLocationMarker />
+          <LocationMarker lat={+lat} lon={+lon} popupMess='Продавец здесь' />
         </MapContainer>
       </div>
     </>

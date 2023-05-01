@@ -3,56 +3,38 @@
 import React, { useRef, useState } from 'react'
 
 import SelectionInput from '@/modules/PostersArea/Navbar/PlaceSelection/SelectionInput'
-import { CITY_API_KEY } from '@/utils/constants'
 
-const test = async () => {
-  const res = await fetch('http://localhost:3000/api/cities', {
+const getPlaces = async (query: string) => {
+  const res = await fetch('http://localhost:3000/api/location/findPlaces', {
     method: 'POST',
-    body: 'Москва'
+    body: query
   })
-  console.log(res.body)
+  const body = await res.json()
+  return body.suggestions
 }
 
-const CitySelection: any = () => {
+const PlaceSelection: any = () => {
   const inputRef = useRef<any>(null)
-  const citiesRef = useRef<any>([])
-  const [cities, setCities] = useState([])
-
-  const getCityData = async (query) => {
-    const url = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address'
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: 'Token ' + CITY_API_KEY
-      },
-      body: JSON.stringify({ query })
-    }
-
-    const res = await fetch(url, options)
-    const data = await res.json()
-    console.log(data)
-    return data.suggestions
-  }
+  const placesRef = useRef<any>([])
+  const [places, setPlaces] = useState([])
 
   const handleChange = async () => {
     const query = inputRef?.current?.value
     if (!query) {
-      setCities([])
-      citiesRef.current = []
+      setPlaces([])
+      placesRef.current = []
       return
     }
-    const data = await getCityData(query)
-    const newCities = data.slice(0, 5).map((cityData) => cityData.value)
-    citiesRef.current = newCities
+    const placeData = await getPlaces(query)
+    const newCities = placeData.slice(0, 5).map(cityData => cityData.value)
+    placesRef.current = newCities
 
     setTimeout(() => {
-      setCities(citiesRef.current)
+      setPlaces(placesRef.current)
     }, 1000)
   }
-  test()
-  return <SelectionInput cities={cities} handleChange={handleChange} inputRef={inputRef} />
+
+  return <SelectionInput cities={places} handleChange={handleChange} inputRef={inputRef} />
 }
 
-export default CitySelection
+export default PlaceSelection

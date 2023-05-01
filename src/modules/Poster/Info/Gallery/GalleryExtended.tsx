@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 
+import { useSelector } from 'react-redux'
+
 import { CloseIcon } from '@/ui/Icons'
 import Arrow from '@/modules/Poster/Info/Gallery/Arrow'
-import { srcOrder } from '@/modules/Poster/Info/Gallery/index'
+import { selectGeneralPoster } from '@/redux/slices/poster'
 
 type GalleryExtendedProps = {
   close: () => void
@@ -18,6 +20,8 @@ const GalleryExtended = ({
   curImageOrder,
   isExtended
 }: GalleryExtendedProps) => {
+  const { images } = useSelector(selectGeneralPoster)
+
   useEffect(() => {
     const keyHandler = (event: KeyboardEvent) => {
       if (event.code == 'ArrowRight' || event.code == 'ArrowLeft') {
@@ -40,7 +44,7 @@ const GalleryExtended = ({
         <div className='flex h-full w-full items-center justify-center'>
           <img
             className='max-h-full w-full max-w-full object-contain'
-            src={srcOrder[curImageOrder]}
+            src={images[curImageOrder]}
             alt=''
           />
         </div>

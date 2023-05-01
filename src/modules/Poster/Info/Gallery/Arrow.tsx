@@ -14,13 +14,18 @@ const Arrow = ({ way, onClick, isExtend }: ArrowProps) => {
   }
 
   // const xPosition = way + (isExtend ? '-[45px]' : '-0')
-  const xPosition = `${way}-${isExtend ? '[45px]' : '0'}`
+  let xPosition
+  if (isExtend) {
+    xPosition = way == 'right' ? 'right-[45px]' : 'left-[45px]'
+  } else {
+    xPosition = way == 'right' ? 'right-0' : 'left-0'
+  }
 
   return (
     <div
       onClick={handleClick}
       className={
-        `absolute top-0 bottom-0 ${xPosition} flex cursor-pointer select-none items-center justify-center bg-zinc-600/0 duration-200 ` +
+        `absolute top-0 bottom-0  ${xPosition} flex cursor-pointer select-none items-center justify-center bg-zinc-600/0 duration-200 ` +
         `${
           isExtend
             ? 'w-[80px] hover:bg-zinc-100/30'

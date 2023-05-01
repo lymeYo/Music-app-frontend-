@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .create__item-images {
+    @apply h-[70px] w-[100px]
+  }
+}

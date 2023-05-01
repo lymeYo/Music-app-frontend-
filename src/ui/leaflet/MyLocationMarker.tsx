@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Marker, Popup, useMapEvents } from 'react-leaflet'
-import * as L from 'leaflet'
+import { Marker, Popup } from 'react-leaflet'
 
 import { greenIcon } from '@/ui/leaflet/icons'
 

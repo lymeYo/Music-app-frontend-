@@ -1,23 +1,31 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux'
 
 import Posters from '@/modules/PostersArea/Posters'
 import Navbar from '@/modules/PostersArea/Navbar'
 import { catalogData } from '@/utils/constants'
+import { setMainPagePosters, TPoster } from '@/redux/slices/poster'
 
 type PostersAreaProps = {
+  posters: TPoster[]
   catTitle: string
   catSubTitle: string
 }
 
-const PostersArea = ({ catTitle, catSubTitle }: PostersAreaProps) => {
+const PostersArea = ({ posters, catTitle, catSubTitle }: PostersAreaProps) => {
   const router = useRouter()
+  const dispatch = useDispatch()
   const [isFiltersOpen, filtersOpen] = useState(false)
 
+  useEffect(() => {
+    dispatch(setMainPagePosters(posters))
+  }, [posters])
+
   const handleFiltersVisible = () => {
-    filtersOpen((prev) => {
+    filtersOpen(prev => {
       if (!prev == true) {
         // @ts-ignore
         document.body.style = 'overflow: hidden'
@@ -31,8 +39,8 @@ const PostersArea = ({ catTitle, catSubTitle }: PostersAreaProps) => {
   }
   try {
     const curCategories = catalogData
-      .find((item) => item.name == catTitle)
-      ?.subcatalog.find((item) => item.name == catSubTitle)
+      .find(item => item.name == catTitle)
+      ?.subcatalog.find(item => item.name == catSubTitle)
     if (!curCategories) throw new Error() //сделал такую реализацию как затычку запроса с бэкенда
 
     return (

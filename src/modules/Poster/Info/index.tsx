@@ -1,21 +1,28 @@
 import React from 'react'
 
+import { useSelector } from 'react-redux'
+
 import Address from '@/modules/Poster/Info/Address'
 import { FavoriteIcon } from '@/ui/Icons'
 import Gallery from '@/modules/Poster/Info/Gallery'
 import Description from '@/modules/Poster/Info/Description'
 import Footer from '@/modules/Poster/Info/Footer'
+import { selectGeneralPoster, TPoster } from '@/redux/slices/poster'
 
 const Main = () => {
+  const poster = useSelector(selectGeneralPoster)
+
   return (
     <div className='flex justify-between'>
-      <div className=''>
-        <h2 className='text-3xl font-bold'>Электронное фортепиано Casio Privia PX-130</h2>
+      <div className='w-full'>
+        <h2 className='text-3xl font-bold'>{poster?.name}</h2>
         <Gallery />
       </div>
       <div className='flex flex-col justify-start'>
         <div className='mb-5 flex'>
-          <span className='mr-5 text-3xl font-bold'>35 990 ₽</span>
+          <span className='mr-5 text-3xl font-bold'>
+            {poster?.price ? `${poster.price} ₽` : ''}
+          </span>
           <div>
             <FavoriteIcon extraClass='h-8 w-8 cursor-pointer hover:text-lMain' />
           </div>

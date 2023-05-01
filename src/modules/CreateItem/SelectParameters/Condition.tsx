@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
-const Condition = ({ setState }: { setState: (isNew: boolean) => void }) => {
-  const [isNew, setNewStatus] = useState<boolean>(false)
+import { PosterStateContext } from '..'
+
+const Condition = () => {
+  const posterState = useContext(PosterStateContext)
+  const [isNew, setNewStatus] = useState<boolean>(true)
 
   const handleState = (newStatus: boolean) => {
     setNewStatus(newStatus)
-    setState(newStatus)
+    posterState.condition = isNew ? 'new' : 'used'
   }
 
   return (
     <div className='create_parameters-box'>
       <span className='create_parameters-title'>Состояние</span>
-      <div className='flex border'>
+      <div className='inline-flex border'>
         <span
           onClick={() => handleState(true)}
           className={

@@ -18,7 +18,7 @@ const SubListItem = ({ title, subtitle, subtitleHandler }) => {
 }
 
 const SubList = ({ activeTitle, subtitleHandler, mobileDesign = false }) => {
-  const data = catalogData.find((item) => item.name == activeTitle)?.subcatalog
+  const data = catalogData.find(item => item.name == activeTitle)?.subcatalog
   const list = data?.map((item, ind) => (
     <SubListItem
       subtitleHandler={subtitleHandler}

@@ -1,14 +1,18 @@
 import React from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
-import MyLocationMarker from '@/modules/Poster/Info/Address/MyMap/MyLocationMarker'
-import SellerLocationMarker from '@/modules/Poster/Info/Address/MyMap/SellerLocationMarker'
 
-const MapArea = () => {
+import LocationMarker from '@/ui/leaflet/LocationMarker'
+
+type MapAreaProps = {
+  latLon: [number, number]
+  isMapFly: boolean
+}
+const MapArea = ({ latLon, isMapFly }: MapAreaProps) => {
   return (
-    <div>
+    <div className='pt-8'>
       <MapContainer
-        className='h-[380px] w-[640px]'
-        center={[61.761734, 34.307256]}
+        className='h-[190px] w-[300px] sm:h-[266px] sm:w-[448px] md:h-[380px] md:w-[640px]'
+        center={latLon}
         zoom={13}
         scrollWheelZoom={true}
       >
@@ -16,8 +20,12 @@ const MapArea = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
-        <MyLocationMarker />
-        <SellerLocationMarker />
+        <LocationMarker
+          lat={latLon[0]}
+          lon={latLon[1]}
+          popupMess='Место сделки'
+          isMapFly={isMapFly}
+        />
       </MapContainer>
     </div>
   )

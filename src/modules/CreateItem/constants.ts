@@ -1,19 +1,21 @@
-type Tfield<T> = T | null
-
-export type TItemState = {
-  category: {
-    title: Tfield<string>
-    subtitle: Tfield<string>
-  }
-  name: Tfield<string>
-  state: Tfield<'new' | 'used'>
+export type TReqPosterData = {
+  category: string
+  name: string
+  price?: number
+  condition: 'new' | 'used'
+  images: string[]
+  location: string
+  description: string
 }
 
-export const initialItemState: TItemState = {
-  category: {
-    title: null,
-    subtitle: null
-  },
-  name: null,
-  state: null
-}
+export const getInitialItemState: () => TReqPosterData = () => ({
+  category: '',
+  name: '',
+  condition: 'new',
+  price: undefined,
+  images: [],
+  location: '',
+  description: ''
+})
+
+export const lastStageIndex = 2

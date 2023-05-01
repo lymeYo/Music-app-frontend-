@@ -1,11 +1,26 @@
 import React from 'react'
 
+import { useSelector } from 'react-redux'
+
 import PreviewImage from '@/modules/Poster/Info/Gallery/PreviewImage'
 import Arrow from '@/modules/Poster/Info/Gallery/Arrow'
-import { srcOrder } from '@/modules/Poster/Info/Gallery/index'
+import { selectGeneralPoster } from '@/redux/slices/poster'
 
-const GalleryDefault = ({ switchImage, handleGalleryExtend, curImageOrder, handleImage }) => {
-  const previewList = srcOrder.map((src, ind) => (
+type GalleryDefaultProps = {
+  switchImage: (type: 'left' | 'right') => void
+  handleGalleryExtend: () => void
+  curImageOrder: number
+  handleImage: (order: number) => void
+}
+const GalleryDefault = ({
+  switchImage,
+  handleGalleryExtend,
+  curImageOrder,
+  handleImage
+}: GalleryDefaultProps) => {
+  const { images } = useSelector(selectGeneralPoster)
+
+  const previewList = images.map((src, ind) => (
     <PreviewImage
       key={ind}
       ind={ind}
@@ -16,13 +31,13 @@ const GalleryDefault = ({ switchImage, handleGalleryExtend, curImageOrder, handl
   ))
 
   return (
-    <div>
-      <div className={'relative h-full max-h-[480px] w-full max-w-[636px] border'}>
+    <div className='w-full'>
+      <div className='relative h-full max-h-[480px] w-full max-w-[636px] border'>
         <Arrow onClick={switchImage} way={'left'} />
         <img
           onClick={handleGalleryExtend}
           className='h-[480px] w-full cursor-pointer object-contain'
-          src={srcOrder[curImageOrder]}
+          src={images[curImageOrder]}
           alt=''
         />
         <Arrow onClick={switchImage} way={'right'} />

@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 
 import PriceSelection from '@/modules/PostersArea/Navbar/PriceSelection'
-import CitySelection from '@/modules/PostersArea/Navbar/PlaceSelection'
+import PlaceSelection from '@/modules/PostersArea/Navbar/PlaceSelection'
 import { CheckIcon, CloseIcon } from '@/ui/Icons'
 
 const ItemLine = ({ item }) => {
@@ -60,7 +60,7 @@ const ListElement = ({ children, title, isOptions = false }) => (
 const Navbar = ({ categories, handleFiltersVisible }) => {
   const list = [
     <ListElement key={-2} title='Город'>
-      <CitySelection />
+      <PlaceSelection />
     </ListElement>,
 
     <ListElement key={-1} title='Цена'>

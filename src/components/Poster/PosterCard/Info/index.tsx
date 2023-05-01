@@ -1,13 +1,25 @@
 import React from 'react'
 
 import Title from '@/components/Poster/PosterCard/Info/Title'
-import Description from '@/components/Poster/PosterCard/Info/Description'
+import DescriptionArea from '@/components/Poster/PosterCard/Info/DescriptionArea'
 
-const Info = () => {
+type InfoProps = {
+  title: string
+  description: string
+  price: number | null
+  location: string
+  createdAt: any
+}
+const Info = ({ title, description, price, location, createdAt }: InfoProps) => {
   return (
     <div className='flex w-full flex-col text-base xl:text-lg'>
-      <Title />
-      <Description />
+      <Title value={title} />
+      <DescriptionArea
+        description={description}
+        price={price}
+        location={location}
+        createdAt={createdAt}
+      />
     </div>
   )
 }

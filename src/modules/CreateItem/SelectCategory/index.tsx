@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import CatalogCard from '@/components/Catalog/CatalogCard'
+import { PosterStateContext } from '..'
 
-const SelectCategory = ({ handle }) => {
+type SelectCategoryProps = {
+  nextSection: () => void
+}
+const SelectCategory = ({ nextSection }: SelectCategoryProps) => {
+  const posterState = useContext(PosterStateContext)
+
   const handleClick = (title: string, subtitle: string) => {
-    handle(title, subtitle)
+    posterState.category = title + '; ' + subtitle
+    nextSection()
   }
   return (
     <div>

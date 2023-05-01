@@ -1,20 +1,19 @@
 import React, { useState } from 'react'
 
-import { FavoriteIcon } from '@/ui/Icons'
 import Link from 'next/link'
 
-const Title = () => {
+import { FavoriteIcon } from '@/ui/Icons'
+
+const Title = ({ value }: { value: string }) => {
   const [isFavorite, setFavorite] = useState(false)
   const handleFavorite = () => {
-    setFavorite((prev) => !prev)
+    setFavorite(prev => !prev)
   }
 
   return (
     <div className='flex justify-between'>
       <Link href='/posters/1'>
-        <span className='cursor-pointer text-2xl text-lMain dark:text-zinc-50'>
-          Фортепиано Yamaha
-        </span>
+        <span className='cursor-pointer text-2xl text-lMain dark:text-zinc-50'>{value}</span>
       </Link>
       <FavoriteIcon
         extraClass={

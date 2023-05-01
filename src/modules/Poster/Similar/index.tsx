@@ -7,7 +7,7 @@ const Index = () => {
     <div className='pt-5'>
       <div className='text-xl font-bold'>Похожие объявления</div>
       <ul className='grid grid-cols-[repeat(auto-fill,_300px)] justify-center gap-2'>
-        <li>
+        {/* <li>
           <PosterCard />
         </li>
         <li>
@@ -21,7 +21,7 @@ const Index = () => {
         </li>
         <li>
           <PosterCard />
-        </li>
+        </li> */}
       </ul>
     </div>
   )

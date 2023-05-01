@@ -1,6 +1,16 @@
 import React from 'react'
 
-const PreviewImage = ({ ind, src, curImageOrder, handleImage }) => {
+type PreviewImageProps = {
+  ind: number
+  src: string
+  curImageOrder: number
+  handleImage: (order: number) => void
+}
+const PreviewImage = ({ ind, src, curImageOrder, handleImage }: PreviewImageProps) => {
+  const handleMouseOver = () => {
+    handleImage(ind)
+  }
+
   return (
     <div
       className={`w-full max-w-[75px] cursor-pointer border border-2 ${
@@ -10,7 +20,7 @@ const PreviewImage = ({ ind, src, curImageOrder, handleImage }) => {
       <img
         src={src}
         data-order={ind}
-        onMouseOver={handleImage}
+        onMouseOver={handleMouseOver}
         className='h-[55px] w-full object-cover'
       />
     </div>

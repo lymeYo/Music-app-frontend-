@@ -1,7 +1,23 @@
 import React from 'react'
 
-import PostersArea from '@/modules/PostersArea'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-export default function Home() {
-  return <PostersArea catTitle='Гитара' catSubTitle='Классические гитары' />
+import PostersArea from '@/modules/PostersArea'
+import { TPoster } from '@/redux/slices/poster'
+import { isResponceError } from '@/pages/api/auth/login'
+
+export default async function Home({ searchParams }) {
+  let mainPosters: TPoster[] = []
+  const res = await fetch('http://localhost:3000/api/poster/getAll', {
+    method: 'POST',
+    body: JSON.stringify(searchParams)
+  })
+  const postersData: TPoster[] = await res.json()
+  if (isResponceError(res, postersData)) {
+    mainPosters = []
+  } else {
+    mainPosters = postersData
+  }
+
+  return <PostersArea posters={mainPosters} catTitle='Гитара' catSubTitle='Классические гитары' />
 }

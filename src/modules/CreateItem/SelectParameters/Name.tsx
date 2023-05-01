@@ -1,9 +1,14 @@
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 
-const Name = ({ setName }: { setName: (name: string) => void }) => {
+import { PosterStateContext } from '..'
+
+const Name = ({ handleButtonDisabled }: { handleButtonDisabled: (value: string) => void }) => {
   const inputRef = useRef<HTMLInputElement>(null)
+  const posterState = useContext(PosterStateContext)
   const changeHandler = () => {
-    setName(inputRef.current?.value ?? '')
+    const value = inputRef.current?.value
+    if (value) posterState.name = value
+    handleButtonDisabled(value || '')
   }
 
   return (
@@ -12,7 +17,7 @@ const Name = ({ setName }: { setName: (name: string) => void }) => {
       <input
         onChange={changeHandler}
         ref={inputRef}
-        className='create_parameters-area'
+        className='create_parameters-area px-4'
         type='text'
       />
     </div>
