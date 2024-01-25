@@ -1,14 +1,30 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import SortArea from '@/modules/PostersArea/Posters/SortArea'
 import Filters from '@/modules/PostersArea/Posters/Filters'
 import PosterCard from '@/components/Poster/PosterCard'
-import { selectMainPagePosters, TPoster } from '@/redux/slices/poster'
-//768-1024 grid-columns-3
+import {
+  addMainPagePosters,
+  selectMainPosters,
+  selectMainPostersPage,
+  TPoster
+} from '@/redux/slices/poster'
+import { isResponceError } from '@/pages/api/auth/login'
+
+const isScrollFinished = (): boolean => {
+  return (
+    document.scrollingElement?.scrollHeight ==
+    Math.floor(window.innerHeight + document.documentElement.scrollTop)
+  )
+}
+
 const Posters = ({ handleFiltersVisible }) => {
-  const posters: TPoster[] = useSelector(selectMainPagePosters)
+  const dispatch = useDispatch()
+  const scrollableList = useRef<HTMLDivElement>(null)
+  const mainPostersPage: number = useSelector(selectMainPostersPage)
+  const posters: TPoster[] = useSelector(selectMainPosters)
 
   const list = posters.map((data: TPoster, ind: number) => (
     <li key={ind}>
@@ -16,8 +32,35 @@ const Posters = ({ handleFiltersVisible }) => {
     </li>
   ))
 
+  useEffect(() => {
+    const handleScroll = async () => {
+      if (isScrollFinished()) {
+        let mainPosters: TPoster[] = []
+        const reqBody = {
+          page: mainPostersPage
+        }
+        const res = await fetch('http://localhost:3000/api/poster/getAll', {
+          method: 'POST',
+          body: JSON.stringify(reqBody)
+        })
+        const postersData: TPoster[] = await res.json()
+        if (isResponceError(res, postersData)) {
+          mainPosters = []
+        } else {
+          mainPosters = postersData
+        }
+        dispatch(addMainPagePosters(mainPosters))
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [scrollableList, mainPostersPage])
+
   return (
-    <div className=''>
+    <div ref={scrollableList}>
       <div className='flex justify-between pt-4 lg:justify-end'>
         <Filters handleFiltersVisible={handleFiltersVisible} />
         <SortArea />
@@ -26,5 +69,5 @@ const Posters = ({ handleFiltersVisible }) => {
     </div>
   )
 }
-
+// lorem ipsum
 export default Posters

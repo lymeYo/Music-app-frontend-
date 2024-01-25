@@ -7,10 +7,7 @@ type DescriptionAreaProps = {
   createdAt: any
 }
 const DescriptionArea = ({ description, price, location, createdAt }: DescriptionAreaProps) => {
-  // const [locationString, setLocationString] = useState<string>('')
   const locationString = location.split(';')[0]
-  console.log('location ', location)
-
   const responsiveDescribe = useMemo(
     () => ({
       default: description.slice(0, 80).split(' ').slice(0, -1).join(' ') + '...',
@@ -49,17 +46,6 @@ const DescriptionArea = ({ description, price, location, createdAt }: Descriptio
       return `${curDateData.hours - createdAtDateData.hours} часов назад`
     return `${curDateData.minutes} минут назад`
   }, [createdAt])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      // const res = await fetch('http://localhost:3000/api/location/findPlaceByCoord', {
-      //   method: 'POST',
-      //   body: location
-      // })
-      // const data = await res.json()
-    }
-    fetchData()
-  }, [location])
 
   return (
     <div>

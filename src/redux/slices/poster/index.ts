@@ -16,13 +16,21 @@ export type TPoster = {
   updatedAt: any
 }
 
+export type TmainPagePosters = {
+  list: TPoster[]
+  curPage: number
+}
+
 export interface PosterState {
-  mainPagePosters: TPoster[]
+  mainPagePosters: TmainPagePosters
   generalPoster?: TPoster
 }
 
 const initialState: PosterState = {
-  mainPagePosters: [],
+  mainPagePosters: {
+    list: [],
+    curPage: 1
+  },
   generalPoster: undefined
 }
 
@@ -31,7 +39,12 @@ export const posterSlice = createSlice({
   initialState,
   reducers: {
     setMainPagePosters: (state: PosterState, action: PayloadAction<TPoster[]>) => {
-      state.mainPagePosters = action.payload
+      state.mainPagePosters.list = action.payload
+      state.mainPagePosters.curPage = 2
+    },
+    addMainPagePosters: (state: PosterState, action: PayloadAction<TPoster[]>) => {
+      state.mainPagePosters.list = state.mainPagePosters.list.concat(action.payload)
+      state.mainPagePosters.curPage++
     },
     setGeneralPoster: (state: PosterState, action: PayloadAction<TPoster>) => {
       state.generalPoster = action.payload
@@ -39,9 +52,12 @@ export const posterSlice = createSlice({
   }
 })
 
-export const { setMainPagePosters, setGeneralPoster } = posterSlice.actions
+export const { setMainPagePosters, addMainPagePosters, setGeneralPoster } = posterSlice.actions
 
-export const selectMainPagePosters = (state: RootState): TPoster[] => state.poster.mainPagePosters
+export const selectMainPosters = (state: RootState): TPoster[] => state.poster.mainPagePosters.list
+
+export const selectMainPostersPage = (state: RootState): number =>
+  state.poster.mainPagePosters.curPage
 
 export const selectGeneralPoster = (state: RootState): TPoster =>
   state.poster.generalPoster as TPoster

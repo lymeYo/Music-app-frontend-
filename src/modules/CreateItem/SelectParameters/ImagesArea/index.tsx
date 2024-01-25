@@ -16,32 +16,29 @@ const ImagesArea = () => {
   const posterState = useContext(PosterStateContext)
   const maxImages = 7
   const [imagesData, setImagesData] = useState<TimageData[]>([])
-  const handleImagesData = useCallback(
-    (images: TimageData[]) => {
-      setImagesData(prevImages => {
-        let newImagesRow: TimageData[]
-        if (!prevImages.length) {
-          newImagesRow = images.slice(0, maxImages)
-          posterState.images = newImagesRow.map(data => data.filePath)
-          return newImagesRow
-        }
-        const prevImagesQuality = prevImages.length
-        const imagesQuality = images.length
-
-        if (imagesQuality >= maxImages) return images.slice(0, maxImages)
-
-        if (prevImagesQuality + imagesQuality > maxImages) {
-          const diff = maxImages - imagesQuality
-          newImagesRow = [...prevImages.slice(0, diff), ...images]
-        } else {
-          newImagesRow = prevImages.concat(images)
-        }
+  const handleImagesData = (images: TimageData[]) => {
+    setImagesData(prevImages => {
+      let newImagesRow: TimageData[]
+      if (!prevImages.length) {
+        newImagesRow = images.slice(0, maxImages)
         posterState.images = newImagesRow.map(data => data.filePath)
         return newImagesRow
-      })
-    },
-    [setImagesData]
-  )
+      }
+      const prevImagesQuality = prevImages.length
+      const imagesQuality = images.length
+
+      if (imagesQuality >= maxImages) return images.slice(0, maxImages)
+
+      if (prevImagesQuality + imagesQuality > maxImages) {
+        const diff = maxImages - imagesQuality
+        newImagesRow = [...prevImages.slice(0, diff), ...images]
+      } else {
+        newImagesRow = prevImages.concat(images)
+      }
+      posterState.images = newImagesRow.map(data => data.filePath)
+      return newImagesRow
+    })
+  }
 
   const deleteImageData = (deletedImageInd: number) => {
     if (fileInputRef.current?.value) fileInputRef.current.value = '' //чтобы можно было добавить удаленную фотографию снова

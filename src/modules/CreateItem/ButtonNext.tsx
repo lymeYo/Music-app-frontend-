@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 type ButtonNextProps = {
@@ -6,7 +7,9 @@ type ButtonNextProps = {
   isDisabled: boolean
 }
 const ButtonNext = ({ handler, isLastSection, isDisabled }: ButtonNextProps) => {
+  const router = useRouter()
   const handleClick = () => {
+    if (isLastSection) router.push('/')
     handler()
   }
 

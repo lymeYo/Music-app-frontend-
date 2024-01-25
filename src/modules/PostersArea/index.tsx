@@ -37,6 +37,7 @@ const PostersArea = ({ posters, catTitle, catSubTitle }: PostersAreaProps) => {
       return !prev
     })
   }
+
   try {
     const curCategories = catalogData
       .find(item => item.name == catTitle)

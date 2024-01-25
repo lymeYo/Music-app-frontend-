@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { useRouter, useSearchParams } from 'next/navigation'
-
 import PostersArea from '@/modules/PostersArea'
 import { TPoster } from '@/redux/slices/poster'
 import { isResponceError } from '@/pages/api/auth/login'
